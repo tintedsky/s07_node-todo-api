@@ -1,5 +1,9 @@
 const MongoClient = require('mongodb').MongoClient;
 
+var user = {name: 'Hong', age: 33};
+var {name} = user;
+console.log(name);
+
 MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
   if(err){
     //'return' prevents the rest of the function from executing.
@@ -8,18 +12,5 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
 
   console.log('Connected to MongoDB server...')
 
-  const db = client.db('TodoApp');
-  db.collection('Users').insertOne({
-    name: 'Hong',
-    age: 25,
-    location: '999 Little Rock, Montreal'
-  }, (err, result) => {
-    if(err){
-      return console.log('Unable to insert user to Users', err);
-    }
-
-    console.log(result.ops[0]._id.getTimestamp());
-  });
-
-  client.close();     /* Close the connection to mongodb server. */
+  client.close();
 });
