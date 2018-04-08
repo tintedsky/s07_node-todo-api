@@ -9,12 +9,13 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
   console.log('Connected to MongoDB server...')
 
   const db = client.db('TodoApp');
-  db.collection('Todos').insertOne({
-    text: 'Something to do',
-    completed: false
+  db.collection('Users').insertOne({
+    name: 'Hong',
+    age: 25,
+    location: '999 Little Rock, Montreal'
   }, (err, result) => {
     if(err){
-      return console.log('Unable to insert todo', err);
+      return console.log('Unable to insert user to Users', err);
     }
 
     console.log(JSON.stringify(result.ops, undefined, 2));
