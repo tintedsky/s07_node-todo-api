@@ -1,8 +1,4 @@
-const MongoClient = require('mongodb').MongoClient;
-
-var user = {name: 'Hong', age: 33};
-var {name} = user;
-console.log(name);
+const {MongoClient} = require('mongodb');
 
 MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
   if(err){
