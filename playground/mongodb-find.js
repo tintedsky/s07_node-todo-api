@@ -9,12 +9,14 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
   console.log('Connected to MongoDB server...')
 
   const db = client.db();
-  db.collection('Todos').find({completed: false}).toArray().then(
-    (docs) => {
+  db.collection('Todos').find({
+    _id: new ObjectID('5aca95a61d6f10cf003d6dfb')
+    })
+    .toArray()
+    .then((docs) => {
       console.log('Todos');
       console.log(JSON.stringify(docs, undefined, 2));
-    },
-    (err) => {
+    }, (err) => {
       console.log('Unable to fetch todos', err);
     }
   );
