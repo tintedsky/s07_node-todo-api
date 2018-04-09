@@ -9,17 +9,10 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
   console.log('Connected to MongoDB server...')
 
   const db = client.db();
-  // db.collection('Todos').find({name:'Hong'}).count()
-  //   .then((count) => {
-  //     console.log(`Todos count: ${count}`);
-  //   }, (err) => {
-  //     console.log('Unable to fetch todos', err);
-  //   }
-  // );
 
-  db.collection('Users').find({name:'Moose'}).count()
-    .then((count) => {
-      console.log(`Users count with: ${count}`);
+  db.collection('Users').find({name:'Hong'}).toArray()
+    .then((docs) => {
+      console.log(JSON.stringify(docs, undefined, 2));
     }, (err) => {
       console.log('Unable to fetch Users');
     });
