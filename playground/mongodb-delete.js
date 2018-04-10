@@ -10,7 +10,7 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, client) => {
 
   const db = client.db();
   //deleteMany, deleteOne, findOneAndDelete
-  db.collection('Todos').deleteMany({text: 'Eat lunch'})
+  db.collection('Todos').deleteOne({text: 'Eat lunch'})
   .then((result) => {
     console.log(result);
   });
