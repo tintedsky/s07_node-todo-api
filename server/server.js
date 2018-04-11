@@ -5,21 +5,24 @@ mongoose.connect('mongodb://localhost:27017/TodoApp');
 
 var Todo = mongoose.model('Todo', {
   text:{
-    type:String
+    type:String,
+    required: true,   //should exists
+    minlength: 1,     //Could not be empty string
+    trim: true        //Trim the leading and trailing spaces
   },
   completed:{
-    type:Boolean
+    type: Boolean,
+    default: false
   },
   completedAt:{
-    type:Number
+    type: Number,
+    default: null
   }
 });
 
 var newTodo = new Todo(
   {
-    text: 'Feed the cat',
-    completed: true,
-    completedAt: 123
+    text: 'Edit the file'
   }
 );
 
