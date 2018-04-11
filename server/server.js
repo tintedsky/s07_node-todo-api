@@ -20,14 +20,34 @@ var Todo = mongoose.model('Todo', {
   }
 });
 
-var newTodo = new Todo(
-  {
-    text: 'Edit the file'
-  }
-);
+// var newTodo = new Todo(
+//   {
+//     text: 'Edit the file'
+//   }
+// );
+//
+// newTodo.save().then((doc) => {
+//   console.log(JSON.stringify(doc, undefined, 2));
+// },(err) =>{
+//   console.log('unable to save', err);
+// });
 
-newTodo.save().then((doc) => {
+//User
+var User = mongoose.model('User', {
+  email:{
+    type:String,
+    required:true,
+    trim:true,
+    minlength:1
+  }
+});
+
+var newUser = new User({
+  email:'user@mongoxxxose.com    '
+});
+
+newUser.save().then((doc)=>{
   console.log(JSON.stringify(doc, undefined, 2));
-},(err) =>{
-  console.log('unable to save', err);
+}, (err) => {
+  console.log('Cannot save the created user', err);
 });
