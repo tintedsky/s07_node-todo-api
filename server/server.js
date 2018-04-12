@@ -1,53 +1,31 @@
-var mongoose = require('mongoose');
+var express = require('express');
+var bodyParser = require('body-parser');
 
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/TodoApp');
+var {mongoose} = require('./db/mongoose');
+var {Todo} = require('./models/todo');
+var {User} = require('./models/user')
 
-var Todo = mongoose.model('Todo', {
-  text:{
-    type:String,
-    required: true,   //should exists
-    minlength: 1,     //Could not be empty string
-    trim: true        //Trim the leading and trailing spaces
-  },
-  completed:{
-    type: Boolean,
-    default: false
-  },
-  completedAt:{
-    type: Number,
-    default: null
-  }
+
+//CRUD methods
+
+var app = express();
+
+//bodyParser.json() will return a function with which app will use as a middleware. Then we can send json to our express application.
+app.use(bodyParser.json());
+
+app.post('/todos', (req, res) => {
+  var todo = new Todo({
+    text:req.body.text
+  });
+
+  todo.save().then((doc) => {
+    res.send(doc);
+  }, (err) => {
+    res.status(400).send(err);
+  });
+
 });
 
-// var newTodo = new Todo(
-//   {
-//     text: 'Edit the file'
-//   }
-// );
-//
-// newTodo.save().then((doc) => {
-//   console.log(JSON.stringify(doc, undefined, 2));
-// },(err) =>{
-//   console.log('unable to save', err);
-// });
-
-//User
-var User = mongoose.model('User', {
-  email:{
-    type:String,
-    required:true,
-    trim:true,
-    minlength:1
-  }
-});
-
-var newUser = new User({
-  email:'user@mongoxxxose.com    '
-});
-
-newUser.save().then((doc)=>{
-  console.log(JSON.stringify(doc, undefined, 2));
-}, (err) => {
-  console.log('Cannot save the created user', err);
+app.listen(3000, () => {
+  console.log('Started on port 3000');
 });
