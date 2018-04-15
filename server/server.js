@@ -5,6 +5,9 @@ var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
 var {User} = require('./models/user')
 
+//ObjectID comes from mongodb, not from mongoose
+var {ObjectID} = require('mongodb');
+
 
 //CRUD methods
 
@@ -35,7 +38,30 @@ app.get('/todos', (req, res) => {
 });
 
 app.get('/todos/:id', (req, res) => {
-  res.send(req.params);
+  var id = req.params.id;
+
+  if(!ObjectID.isValid(id)){
+    console.log('Id not valid');
+    return res.status(404).send(); //using return to prevent the program from executing.
+  }
+
+  Todo.findById(id).then((doc) => {
+    if(doc){
+      return res.send(doc);
+    }
+    res.status(404).send(doc);
+  }, (err) => {
+    res.status(400).send(null);
+  });
+  //valid id using isValid()
+    // 404 - send bck empty send
+
+  // findById
+    // success
+       // if todo - send it back
+       // if no todo - send back 404 with empty body
+    // error;
+       //400 - and send empty body back.
 });
 
 app.listen(3000, () => {
