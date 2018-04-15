@@ -1,27 +1,17 @@
+const {ObjectID} = require('mongodb');
+
 const {mongoose} = require('./../server/db/mongoose');
 const {Todo} = require('./../server/models/todo');
+const {User} = require('./../server/models/user');
 
-var id = '5ad2c2c4a4baa6cd05b875a5';
+var id = '5acd7c8fc03f6a6f89514497';
 
-//Here we do not manually convert our string to an object
-Todo.find({
-  _id: id
-}).then((todos) => {
-  console.log('Todos', todos);
-});
-
-Todo.findOne({
-  _id:id
-}).then((todo) => {
-  console.log('Todo', todo);
-});
-
-Todo.findById(id)
-    .then((todo) => {
-      if(!todo){
-        return console.log('Id not found');
+User.findById(id)
+    .then((user) => {
+      if(!user){
+        return console.log('Unable to find user');
       }
-      console.log('Todo By Id:', todo)
-});
-
-//mongoosejs.com to find the documents for the API provided
+      console.log(JSON.stringify(user, undefined, 2));
+    }, (e) => {
+      console.log(e);
+    });
