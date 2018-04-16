@@ -41,7 +41,6 @@ app.get('/todos/:id', (req, res) => {
   var id = req.params.id;
 
   if(!ObjectID.isValid(id)){
-    console.log('Id not valid');
     return res.status(404).send(); //using return to prevent the program from executing.
   }
 
