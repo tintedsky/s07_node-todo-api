@@ -11,7 +11,8 @@ var {ObjectID} = require('mongodb');
 
 //CRUD methods
 
-var app = express();
+var app = express
+const port = process.env.PORT || 3000;
 
 //bodyParser.json() will return a function with which app will use as a middleware. Then we can send json to our express application.
 app.use(bodyParser.json());
@@ -55,8 +56,8 @@ app.get('/todos/:id', (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log('Started on port 3000');
+app.listen(port, () => {
+  console.log(`Started up at port ${port}`);
 });
 
 module.exports = {app};
