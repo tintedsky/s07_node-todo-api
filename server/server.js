@@ -45,23 +45,15 @@ app.get('/todos/:id', (req, res) => {
     return res.status(404).send(); //using return to prevent the program from executing.
   }
 
-  Todo.findById(id).then((doc) => {
-    if(doc){
-      return res.send(doc);
+  Todo.findById(id).then((todo)=>{
+    if(!todo){
+      return res.status(404).send();
     }
-    res.status(404).send(doc);
-  }, (err) => {
-    res.status(400).send(null);
-  });
-  //valid id using isValid()
-    // 404 - send bck empty send
 
-  // findById
-    // success
-       // if todo - send it back
-       // if no todo - send back 404 with empty body
-    // error;
-       //400 - and send empty body back.
+    res.send({todo});
+  }).catch((e) => {
+    res.status(400).send();
+  });
 });
 
 app.listen(3000, () => {
