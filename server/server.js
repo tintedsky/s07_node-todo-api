@@ -11,7 +11,7 @@ var {ObjectID} = require('mongodb');
 
 //CRUD methods
 
-var app = express
+var app = express();
 const port = process.env.PORT || 3000;
 
 //bodyParser.json() will return a function with which app will use as a middleware. Then we can send json to our express application.
