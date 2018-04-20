@@ -103,13 +103,11 @@ app.patch('/todos/:id', (req, res) => {
 
 app.post('/users', (req, res) => {
   var body = _.pick(req.body, ['email', 'password']);
-  var user = new User({email:body.email, password:body.password});
+  var user = new User(body);
 
-  user.save().then((doc) => {
-    res.send(doc);
-  }, (err) => {
-    res.status(400).send(err);
-  });
+  user.save().then((user) => {
+    res.send(user);
+  }).catch((e) => res.status(400).send(e));
 });
 
 app.listen(port, () => {
