@@ -1,3 +1,5 @@
+require('./config/config');
+
 const _ = require('lodash');
 
 var express = require('express');
@@ -14,7 +16,7 @@ var {ObjectID} = require('mongodb');
 //CRUD methods
 
 var app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 //bodyParser.json() will return a function with which app will use as a middleware. Then we can send json to our express application.
 app.use(bodyParser.json());
