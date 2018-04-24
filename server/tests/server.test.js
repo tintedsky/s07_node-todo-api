@@ -3,6 +3,7 @@ const request = require('supertest');
 
 const {app} = require('../server');
 const {Todo} = require('../models/todo');
+const {User} = require('../models/user');
 
 const {ObjectID} = require('mongodb');
 const {todos, populateTodos, users, populateUsers} = require('./seed/seed')
@@ -182,6 +183,65 @@ describe('GET /users/me', () => {
       .expect(401)
       .expect((res) => {
         expect(res.body).toEqual({});
+      })
+      .end(done);
+  });
+});
+
+describe('POST /users', () => {
+  it('should create a user', (done)=>{
+    var email = 'exattle@gmail.com';
+    var password = '123mxt!';
+
+    request(app)
+      .post('/users')
+      .send({email, password})
+      .expect(200)
+      .expect((res) => {
+        expect(res.headers['x-auth']).toExist();
+        expect(res.body._id).toExist();
+        expect(res.body.email).toBe(email);
+      })
+      .end((err) => {
+        if(err){
+          return done(err);
+        }
+
+        User.findOne({email}).then((user) => {
+          expect(user).toExist();
+          expect(user.password).toNotBe(password);
+          done();
+        })
+      });
+  });
+
+  it('should return validation errors if request invalid', (done) => {
+    request(app)
+      .post('/users')
+      .send({
+        email:'abc',
+        password:'abc1'
+      })
+      .expect(400)
+      .expect((res) => {
+        expect(res.body._id).toNotExist();
+      })
+      .end(done);
+  });
+
+  it('should not create user if email in use', (done) => {
+    var email = 'jen@gmail.com';
+    var password = 'abc123!';
+
+    request(app)
+      .post('/users')
+      .send({
+        email:users[0].email,
+        password:'Password123!'
+      })
+      .expect(400)
+      .expect((res) => {
+        expect(res.body._id).toNotExist();
       })
       .end(done);
   });
